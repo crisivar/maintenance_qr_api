@@ -1,0 +1,4 @@
+[flake8]
+exclude=wsgi.py,env/*,*/migrations/*,venv/*,.env/*,.venv/*,settings.py,.git,*migrations*
+ignore=F403,E127,E128,E126,E123,E121,E203,E251,E265,E501,E722,N802,N803,N806,C901,D100,D102,D102,D10,W503,W504,W605,E501
+max-line-length = 160
