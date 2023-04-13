@@ -2,16 +2,22 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from .serializers import CategorySerializer, SubCategorySerializer
 from .models import Category, SubCategory
+from django.contrib.auth.decorators import user_passes_test
+from utils.my_utils import is_staff_or_superuser
 
 
 class CategoryList(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
+    @user_passes_test(is_staff_or_superuser)
     def post(self, request):
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
@@ -21,6 +27,8 @@ class CategoryList(APIView):
 
 
 class CategoryDetail(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         try:
             return Category.objects.get(pk=pk)
@@ -32,6 +40,7 @@ class CategoryDetail(APIView):
         serializer = CategorySerializer(category)
         return Response(serializer.data)
 
+    @user_passes_test(is_staff_or_superuser)
     def put(self, request, pk):
         category = self.get_object(pk)
         serializer = CategorySerializer(category, data=request.data)
@@ -40,6 +49,7 @@ class CategoryDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @user_passes_test(is_staff_or_superuser)
     def delete(self, request, pk):
         category = self.get_object(pk)
         category.delete()
@@ -52,6 +62,7 @@ class SubCategoryList(APIView):
         serializer = SubCategorySerializer(subcategories, many=True)
         return Response(serializer.data)
 
+    @user_passes_test(is_staff_or_superuser)
     def post(self, request):
         serializer = SubCategorySerializer(data=request.data)
         if serializer.is_valid():
@@ -72,6 +83,7 @@ class SubCategoryDetail(APIView):
         serializer = SubCategorySerializer(subcategory)
         return Response(serializer.data)
 
+    @user_passes_test(is_staff_or_superuser)
     def put(self, request, pk):
         subcategory = self.get_object(pk)
         serializer = SubCategorySerializer(subcategory, data=request.data)
@@ -80,6 +92,7 @@ class SubCategoryDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @user_passes_test(is_staff_or_superuser)
     def delete(self, request, pk):
         subcategory = self.get_object(pk)
         subcategory.delete()

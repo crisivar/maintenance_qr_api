@@ -20,7 +20,7 @@ class ClientSerializer(serializers.ModelSerializer):
             'purchasing_contact',
             'phone_number',
             'email',
-            'created_at',
-            'updated_at'
+            'created',
+            'updated'
         ]
         read_only_fields = ('created', 'updated')

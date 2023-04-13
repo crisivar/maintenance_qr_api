@@ -11,3 +11,6 @@ pip install -r requirements.txt
 ```
 python manage.py runserver
 ```
+
+
+Primera tanda de 4:15 a 6:20 pm
